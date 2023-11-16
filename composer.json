@@ -1,0 +1,39 @@
+{
+    "name": "ymsoft/telegram-channel-scrapper",
+    "description": "Public telegram channel scrapper.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["telegram", "channle", "message", "scrapper"],
+    "autoload": {
+        "psr-4": {
+            "Ymsoft\\TelegramChannelScrapper\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ymsoft\\TelegramChannelScrapper\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "YarmaT",
+            "email": "yarmatua@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.0",
+        "illuminate/collections": "^10.32",
+        "symfony/dom-crawler": "^6.3",
+        "symfony/css-selector": "^6.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.4",
+        "friendsofphp/php-cs-fixer": "^3.38",
+        "phpstan/phpstan": "^1.10"
+    },
+    "scripts": {
+        "cs-check": "vendor/bin/php-cs-fixer check",
+        "cs-fix": "vendor/bin/php-cs-fixer fix",
+        "phpstan": "vendor/bin/phpstan analyse"
+    }
+}
