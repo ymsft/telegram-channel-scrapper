@@ -65,6 +65,35 @@ You can install the package via composer:
 composer require ymsoft/telegram-channel-scrapper
 ```
 
+## Advanced usage
+
+### Scrap special message by concrete id
+If you know the message ID you can get it:
+```php
+use Ymsoft\TelegramChannelScrapper\TelegramCS;
+
+$service = new TelegramCS('channel_name');
+
+/** @var \Ymsoft\TelegramChannelScrapper\Entity\Message\Message $message */
+$message = $service->getMessageById(1);
+```
+
+### Http client (CUSTOM HEADERS & PROXY)
+If you want to add your own headers or make requests through a proxy, you can pass your http client instance as the second parameter:
+```php
+use Ymsoft\TelegramChannelScrapper\TelegramCS;
+
+$client = new \GuzzleHttp\Client([
+    'headers' => [
+        'Accept-Language' => 'en-US,en;q=0.9',
+        'Accept' => 'text/html',
+    ],
+    'proxy' => 'http://localhost:8125',
+]);
+
+$service = new TelegramCS('channel_name', $client);
+```
+
 ## Testing
 
 ``` bash
