@@ -35,7 +35,7 @@ jobs:
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
     - name: Run tests
-      run: vendor/bin/phpubit
+      run: composer run-script phpunit
 
     - name: Run cs-check
       run: composer run-script cs-check
