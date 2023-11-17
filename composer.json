@@ -21,7 +21,7 @@
         }
     ],
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "guzzlehttp/guzzle": "^7.0",
         "illuminate/collections": "^10.32",
         "symfony/dom-crawler": "^6.3",
