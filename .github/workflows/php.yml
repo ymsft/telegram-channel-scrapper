@@ -4,6 +4,8 @@ on:
   push:
     branches: [ "master" ]
   pull_request:
+  schedule:
+    - cron: "0 0 * * *"
 
 permissions:
   contents: read
@@ -30,9 +32,6 @@ jobs:
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
-
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
 
     - name: Run tests
       run: composer run-script phpunit
