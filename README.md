@@ -1,5 +1,4 @@
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/support-ukraine.svg?t=1" />](https://supportukrainenow.org)
-
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://vshymanskyy.github.io/StandWithUkraine/)
 # Public telegram channels scrapper
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/ymsoft/telegram-channel-scrapper.svg?style=for-the-badge)](https://packagist.org/packages/ymsoft/telegram-channel-scrapper)
@@ -103,6 +102,10 @@ composer test
 ## Changelog
 
 Please see [CHANGELOG](https://github.com/yarmat/telegram-channel-scrapper/releases) for more information on what has changed recently.
+
+## Contributing
+
+Thank you for considering contributing to the TelegramCS Package!
 
 ## License
 
