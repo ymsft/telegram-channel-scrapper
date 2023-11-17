@@ -18,6 +18,7 @@ $scrapper = new TelegramCS('channel_name');
 
 /** @var \Ymsoft\TelegramChannelScrapper\Entity\Channel $channel */
 $channel = $scrapper->getChannel();
+
 /** 
  * By default, you will scrap the latest 20 messages.
  * @var \Illuminate\Support\Collection<\Ymsoft\TelegramChannelScrapper\Entity\Message\Message> $messages 
@@ -32,6 +33,29 @@ $scrapper->getMessages()->count() // will return 40
 
 // You can download old messages endlessly until you download everything.
 ```
+
+Since this package uses [illuminate/collections](https://github.com/illuminate/collections) you can use all [the methods described here](https://laravel.com/docs/10.x/collections#available-methods) to work with a collection of messages. 
+
+```php
+/** 
+ * @var \Illuminate\Support\Collection<\Ymsoft\TelegramChannelScrapper\Entity\Message\Message> $messages 
+ */
+$messages = $service->getMessage();
+$messages->all();
+$messages->count();
+$messages->toArray();
+$messages->firstWhere('id', 1);
+$messages->last();
+$messages->first();
+
+// and much more https://laravel.com/docs/10.x/collections#available-methods
+```
+
+### Channel
+View all entity attributes [Channel](src/Entity/Channel.php). 
+
+### Message
+View all entity attributes [Message](src/Entity/Message/Message.php).
 
 ## Installation
 
