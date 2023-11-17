@@ -8,3 +8,17 @@
 [![PHP from Packagist](https://img.shields.io/packagist/php-v/ymsoft/telegram-channel-scrapper?style=flat-square)](https://packagist.org/packages/ymsoft/telegram-channel-scrapper)
 [![PHP Composer](https://github.com/yarmat/telegram-channel-scrapper/actions/workflows/php.yml/badge.svg?branch=master)](https://github.com/yarmat/telegram-channel-scrapper/actions/workflows/php.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/ymsoft/telegram-channel-scrapper.svg?style=flat-square)](https://packagist.org/packages/ymsoft/telegram-channel-scrapper)
+
+## Testing
+
+``` bash
+composer test
+```
+
+## Changelog
+
+Please see [CHANGELOG](https://github.com/yarmat/telegram-channel-scrapper/releases) for more information on what has changed recently.
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
