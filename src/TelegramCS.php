@@ -2,6 +2,11 @@
 
 namespace Ymsoft\TelegramChannelScrapper;
 
+use GuzzleHttp\Psr7\Request;
+use InvalidArgumentException;
+use Psr\Http\Client\ClientExceptionInterface;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\ResponseInterface;
 use Ymsoft\TelegramChannelScrapper\Crawler\ChannelCrawler;
 use Ymsoft\TelegramChannelScrapper\Crawler\CrawlerInterface;
 use Ymsoft\TelegramChannelScrapper\Crawler\MessageCrawler;
@@ -10,13 +15,11 @@ use Ymsoft\TelegramChannelScrapper\Entity\Channel;
 use Ymsoft\TelegramChannelScrapper\Entity\Message\Message;
 use Exception;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Collection;
-use Symfony\Component\DomCrawler\Crawler;
 
 class TelegramCS
 {
-    private Client $client;
+    private ClientInterface $client;
 
     private TelegramCSState $state;
 
@@ -24,12 +27,12 @@ class TelegramCS
     private array $crawlers = [];
 
     /**
-     * @throws GuzzleException
      * @throws Exception
+     * @throws ClientExceptionInterface
      */
     public function __construct(
         private readonly string $channelName,
-        Client $client = null,
+        ClientInterface $client = null,
     ) {
         $this->setClient($client);
 
@@ -43,17 +46,17 @@ class TelegramCS
             state: $this->state,
         ));
 
-        $response = $this->client->get("https://t.me/s/$this->channelName");
+        $response = $this->sendRequest("https://t.me/s/$this->channelName");
+
+        if ($response->getStatusCode() === 302) {
+            throw new InvalidArgumentException('Invalid telegram channel name.');
+        }
 
         if ($response->getStatusCode() !== 200) {
             throw new Exception('Telegram response does not correspond to what we expect.');
         }
 
         $html = $response->getBody();
-
-        if ((new Crawler($html))->filter('.tgme_channel_info')->count() === 0) {
-            throw new \InvalidArgumentException('Invalid telegram channel name.');
-        }
 
         $this->processCrawlers($html);
     }
@@ -73,7 +76,7 @@ class TelegramCS
 
     /**
      * @throws Exception
-     * @throws GuzzleException
+     * @throws ClientExceptionInterface
      */
     public function getMessageById(int $id, bool $onlyStateMessages = false): Message
     {
@@ -86,7 +89,8 @@ class TelegramCS
         if (is_null($messageFromState) && $onlyStateMessages) {
             throw new Exception('Undefined message in the state.');
         }
-        $html = $this->client->get("https://t.me/$this->channelName/$id?embed=1&mode=tme")->getBody();
+
+        $html = $this->sendRequest("https://t.me/$this->channelName/$id?embed=1&mode=tme")->getBody();
 
         $crawler = new MessageCrawler();
 
@@ -101,7 +105,7 @@ class TelegramCS
 
     /**
      * @throws Exception
-     * @throws GuzzleException
+     * @throws ClientExceptionInterface
      */
     public function loadPrevMessages(): void
     {
@@ -112,7 +116,7 @@ class TelegramCS
             throw new Exception('This channel has no more messages.');
         }
 
-        $html = $this->client->get("https://t.me/s/$this->channelName?before=$message->id")->getBody();
+        $html = $this->sendRequest("https://t.me/s/$this->channelName?before=$message->id")->getBody();
 
         $this->getCrawler(MessagesCrawler::class)->process($html);
     }
@@ -134,13 +138,25 @@ class TelegramCS
         return $this->crawlers[$name];
     }
 
-    private function setClient(?Client $client): void
+    /**
+     * @throws ClientExceptionInterface
+     */
+    private function sendRequest(string $uri): ResponseInterface
     {
-        $this->client = $client ?: new Client([
-            'headers' => [
-                'Accept-Language' => 'en-US,en;q=0.9',
-                'Accept' => 'text/html',
-            ],
-        ]);
+        return $this->client->sendRequest(
+            new Request(
+                method: 'GET',
+                uri: $uri,
+                headers: [
+                    'Accept-Language' => 'en-US,en;q=0.9',
+                    'Accept' => 'text/html',
+                ]
+            )
+        );
+    }
+
+    private function setClient(?ClientInterface $client): void
+    {
+        $this->client = $client ?: new Client();
     }
 }

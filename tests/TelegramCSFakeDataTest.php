@@ -6,20 +6,21 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Client\ClientExceptionInterface;
 use Ymsoft\TelegramChannelScrapper\Entity\Message\Message;
 use Ymsoft\TelegramChannelScrapper\TelegramCS;
 
 class TelegramCSFakeDataTest extends TestCase
 {
     /**
-     * @throws GuzzleException
+     * @throws ClientExceptionInterface
      */
     public function test_fake_channel1(): void
     {
         $mockClient = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $mockClient->method('get')
+        $mockClient->method('sendRequest')
             ->willReturn(new Response(200, [], file_get_contents(__DIR__ . '/data/channel1')));
 
         $service = new TelegramCS('spotify', $mockClient);

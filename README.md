@@ -82,6 +82,11 @@ If you want to add your own headers or make requests through a proxy, you can pa
 ```php
 use Ymsoft\TelegramChannelScrapper\TelegramCS;
 
+/*
+ * You can provide any http client that implements psr/http-client
+ * Psr\Http\Client
+ */
+ 
 $client = new \GuzzleHttp\Client([
     'headers' => [
         'Accept-Language' => 'en-US,en;q=0.9',
