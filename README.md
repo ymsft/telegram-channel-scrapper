@@ -112,6 +112,7 @@ Please see [CHANGELOG](https://github.com/ymsft/telegram-channel-scrapper/releas
 
 Thank you for considering contributing to the TelegramCS Package!
 
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
